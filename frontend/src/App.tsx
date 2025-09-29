@@ -102,70 +102,60 @@ function App() {
   }
 
   return (
-    <div style={{ maxWidth: 640, margin: "0 auto", padding: 16 }}>
-      <h1>Todo App</h1>
-      <form
-        onSubmit={handleAdd}
-        style={{ display: "flex", flexDirection: "column", gap: 8 }}
-      >
-        <input
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <textarea
-          placeholder="Description (optional)"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <button type="submit">Add Todo</button>
-      </form>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <ul style={{ listStyle: "none", padding: 0, marginTop: 16 }}>
-          {todos.map((t) => (
-            <li
-              key={t.id}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                padding: "8px 0",
-                borderBottom: "1px solid #eee",
-              }}
-            >
-              <input
-                type="checkbox"
-                checked={t.is_completed}
-                onChange={() => handleToggle(t)}
-              />
-              <div style={{ flex: 1 }}>
-                <div
-                  style={{
-                    textDecoration: t.is_completed ? "line-through" : "none",
-                    fontWeight: 600,
-                  }}
-                >
-                  {t.title}
-                </div>
-                {t.description && (
-                  <div style={{ color: "#666", fontSize: 14 }}>
-                    {t.description}
+    <div className="app-container">
+      <h1 className="app-title">Todo App</h1>
+      <div className="columns">
+        <div className="column left">
+          <form onSubmit={handleAdd} className="todo-form">
+            <input
+              placeholder="Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <textarea
+              placeholder="Description (optional)"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+            <button type="submit">Add Todo</button>
+            {error && <p className="error-text">{error}</p>}
+          </form>
+        </div>
+        <div className="column right">
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            <ul className="todo-list">
+              {todos.map((t) => (
+                <li key={t.id} className="todo-item">
+                  <input
+                    type="checkbox"
+                    checked={t.is_completed}
+                    onChange={() => handleToggle(t)}
+                  />
+                  <div className="todo-texts">
+                    <div
+                      className={`todo-title ${t.is_completed ? "done" : ""}`}
+                    >
+                      {t.title}
+                    </div>
+                    {t.description && (
+                      <div className="todo-desc">{t.description}</div>
+                    )}
                   </div>
-                )}
-              </div>
-              <button
-                onClick={() => handleDelete(t.id)}
-                aria-label={`Delete ${t.title}`}
-              >
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
+                  <button
+                    onClick={() => handleDelete(t.id)}
+                    aria-label={`Delete ${t.title}`}
+                    className="delete-btn"
+                  >
+                    Delete
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
